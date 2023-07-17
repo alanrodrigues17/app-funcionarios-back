@@ -41,7 +41,6 @@ async function ensureDbExists(dbName) {
                     reject(`Create DB Query Failed: ${err.message}`);
                 }
 
-                // query executed successfully
                 resolve();
             });
 

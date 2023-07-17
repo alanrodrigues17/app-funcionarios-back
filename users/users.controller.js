@@ -32,19 +32,19 @@ function getById(req, res, next) {
 
 function create(req, res, next) {
     userService.create(req.body)
-        .then(() => res.json({ message: 'User created' }))
+        .then(() => res.json({ message: 'Usuário criado' }))
         .catch(next);
 }
 
 function update(req, res, next) {
     userService.update(req.params.id, req.body)
-        .then(() => res.json({ message: 'User updated' }))
+        .then(() => res.json({ message: 'Usuário atualizado' }))
         .catch(next);
 }
 
 function _delete(req, res, next) {
     userService.delete(req.params.id)
-        .then(() => res.json({ message: 'User deleted' }))
+        .then(() => res.json({ message: 'Usuário deletado' }))
         .catch(next);
 }
 
@@ -52,26 +52,24 @@ function _delete(req, res, next) {
 
 function createSchema(req, res, next) {
     const schema = Joi.object({
-        title: Joi.string().required(),
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        role: Joi.string().valid(Role.Admin, Role.User).required(),
+        nome: Joi.string().required(),
+        sobrenome: Joi.string().required(),
+        permissao: Joi.string().valid(Role.Admin, Role.User).required(),
         email: Joi.string().email().required(),
-        password: Joi.string().min(6).required(),
-        confirmPassword: Joi.string().valid(Joi.ref('password')).required()
+        senha: Joi.string().min(6).required(),
+        confirmarSenha: Joi.string().valid(Joi.ref('senha')).required()
     });
     validateRequest(req, next, schema);
 }
 
 function updateSchema(req, res, next) {
     const schema = Joi.object({
-        title: Joi.string().empty(''),
-        firstName: Joi.string().empty(''),
-        lastName: Joi.string().empty(''),
-        role: Joi.string().valid(Role.Admin, Role.User).empty(''),
+        nome: Joi.string().empty(''),
+        sobrenome: Joi.string().empty(''),
+        permissao: Joi.string().valid(Role.Admin, Role.User).empty(''),
         email: Joi.string().email().empty(''),
-        password: Joi.string().min(6).empty(''),
-        confirmPassword: Joi.string().valid(Joi.ref('password')).empty('')
-    }).with('password', 'confirmPassword');
+        senha: Joi.string().min(6).empty(''),
+        confirmarSenha: Joi.string().valid(Joi.ref('senha')).empty('')
+    }).with('senha', 'confirmarSenha');
     validateRequest(req, next, schema);
 }
